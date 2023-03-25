@@ -8,7 +8,10 @@ urlpatterns = [
     
     path("contact/",views.contact,name="contact"),
     path("search/",views.search,name="search"),
-    path("checkout/",views.checkout,name="chekout"),
+    path("checkoutbill/",views.checkout,name="c"),
+    path("success/",views.success,name="s"),
+    path("show/",views.show,name="show"),
+    path("payment/",views.payment,name="sb"),
     path("register/",views.register,name="regis"),
     path("signin/",views.signin,name="signin"),
     path("signout/",views.signout,name="signout"),

@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Product, Contact, Burger, Order
 from django.core.mail import send_mail
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -50,21 +52,42 @@ def checkout(request):
                       at=at, address=address, city=city, pay=pay)
         order.save()
 
-        return render(request, "foodapp/about.html")
+    
+    return render(request, "foodapp/checkoutbill.html")
 
-    return render(request, "foodapp/checkout.html")
+def show(request):
+    return render(request,"foodapp/pay.html")
 
+def payment(request):
+
+    if request.method == "POST":
+
+        order_amt = 500
+        order_currency = 'INR'
+        client = razorpay.Client(
+            auth=('rzp_test_smMBODcmhfOHUa', 'ZdY5NyhcYnHGMaEOIzDjcSsN'))
+        payment = client.order.create(
+            {'order_amt': order_amt, 'order_currency': order_currency, 'payment_capture': '1'})
+        context = {'payment': payment}
+
+    return render(request, "foodapp/success.html",context)
+
+@csrf_exempt
+def success(request):
+    return render(request,"foodapp/success.html")
 
 def bugerlist(request):
     burger = Burger.objects.all()
-    
+
     return render(request, "foodapp/burgerlist.html", {'burger': burger})
+
 
 def search(request):
     query = request.GET['query']
     burger = Burger.objects.filter(bur_name__icontains=query.lower())
-    params = {'burger':burger,'query':query}
-    return render(request,"foodapp/search.html", params)
+    params = {'burger': burger, 'query': query}
+    return render(request, "foodapp/search.html", params)
+
 
 def register(request):
     if request.method == 'POST':

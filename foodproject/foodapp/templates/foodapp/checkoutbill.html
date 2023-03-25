@@ -40,7 +40,8 @@
     <div class="container">
         <h1 class="text-center mt-3 mb-3">Fill the following details & place the order...</h1>
         <div class="container sub-con">
-            <form class="row g-3" method="post" action="/shop/checkout/">
+
+            <form class="row g-3" action="/shop/checkoutbill/" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="at" id="at">
                 <div class="col-md-6">
@@ -52,7 +53,7 @@
                 <div class="col-md-6">
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                 </div>
-               
+
                 <div class="col-12">
                     <textarea class="form-control" id="address" name="address" rows="3"
                         placeholder="Address"></textarea>
@@ -75,8 +76,13 @@
                 </div>
 
                 <div class="col-12">
+
                     <button type="submit" class="btn btn-danger center" onclick="fun()">Place Order</button>
+                    <!--<a href="/shop/show"><button class="btn btn-danger center">make payment</button></a>-->
+                    <a href="/shop/show">Make Payment</a>
+
                 </div>
+
             </form>
         </div>
     </div>
@@ -100,15 +106,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     -->
     <script>
-        console.log("working")
-        if (localStorage.getItem('cart') == null) {
-            var cart = {};
-        }
-        else {
-            cart = JSON.parse(localStorage.getItem('cart'));
 
-        }
-        console.log(cart)
+
+        console.log(" working")
+        if (localStorage.getItem('cart') == null) { var cart = {}; } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+        } console.log(cart)
+
         var totalprice = 0
         if ($.isEmptyObject(cart)) {
             mystr = `<p class="text-center">Your cart is empty, please add some items to your cart</p>`
@@ -130,10 +134,15 @@
         document.getElementById('totalprice').innerHTML = totalprice;
 
         function fun() {
-            alert("Your order has been Placed.");
-        } 
-    $('#at').val($('#totalprice').html())
+            alert("Please make a payment");
+        }
+        $('#at').val($('#totalprice').html())
+
+
+
     </script>
+
+
 </body>
 
 </html>
